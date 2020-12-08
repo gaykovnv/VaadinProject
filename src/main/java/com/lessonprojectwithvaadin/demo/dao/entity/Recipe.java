@@ -9,11 +9,11 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"id","description","patient","doctor","date","validity","priority"})
-@ToString(of = {"description","patient","doctor","date","validity","priority"})
+@EqualsAndHashCode(of = {"id", "description", "patient", "doctor", "date", "validity", "priority"})
+@ToString(of = {"description", "patient", "doctor", "date", "validity", "priority"})
 @NoArgsConstructor
 @Table(name = "recipe")
-public class Recipe implements Serializable,Cloneable {
+public class Recipe implements Serializable, Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Recipe implements Serializable,Cloneable {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id")
-    private Patient patient ;
+    private Patient patient;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")

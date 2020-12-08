@@ -32,21 +32,21 @@ public class RecipeEditor extends VerticalLayout implements KeyNotifier {
     private final RecipeServiceImpl service;
 
     private Recipe recipe;
-    private final TextField description = new TextField("Description: ","type of text");
+    private final TextField description = new TextField("Description: ", "type of text");
     private final DatePicker date = new DatePicker("Date create: ");
     private final DatePicker validity = new DatePicker("Validity: ");
-    private final Select<Priority> prioritySelect = new Select<>(Priority.NORM,Priority.CITO,Priority.STATIM);
+    private final Select<Priority> prioritySelect = new Select<>(Priority.NORM, Priority.CITO, Priority.STATIM);
     private final ComboBox<Doctor> doctor = new ComboBox<>("Doctor: ");
     private final ComboBox<Patient> patient = new ComboBox<>("Patient: ");
 
     private final Button save = new Button("save", VaadinIcon.CHECK.create());
     private final Button cancel = new Button("cancel");
-    private final Button delete = new Button("delete",VaadinIcon.TRASH.create());
-    private final HorizontalLayout buttons = new HorizontalLayout(save,cancel,delete);
+    private final Button delete = new Button("delete", VaadinIcon.TRASH.create());
+    private final HorizontalLayout buttons = new HorizontalLayout(save, cancel, delete);
 
     private final Binder<Recipe> binder = new Binder<>(Recipe.class);
 
-    public RecipeEditor(RecipeServiceImpl service){
+    public RecipeEditor(RecipeServiceImpl service) {
         this.service = service;
 
         prioritySelect.setLabel("Choose priority");
@@ -59,7 +59,7 @@ public class RecipeEditor extends VerticalLayout implements KeyNotifier {
         patient.setItems(service.findAllPatients());
         patient.setItemLabelGenerator(Patient::toShow);
 
-        add(description,date,validity,prioritySelect,doctor,patient,buttons);
+        add(description, date, validity, prioritySelect, doctor, patient, buttons);
 
         setSpacing(true);
 
@@ -73,35 +73,37 @@ public class RecipeEditor extends VerticalLayout implements KeyNotifier {
         cancel.addClickListener(e -> editRecipe(recipe));
         setVisible(false);
     }
-    private void save(){
+
+    private void save() {
         setVisible(false);
         recipe.setPriority(prioritySelect.getValue());
         service.saveRecipe(recipe);
-        UI ui = new UI();
-        ui.getUI().get().getPage().reload();
+        getUI().get().getPage().reload();
 
     }
-    private void delete(){
-        if(recipe ==null){
+
+    private void delete() {
+        if (recipe == null) {
             setVisible(false);
             return;
         }
         setVisible(false);
         service.deleteRecipe(recipe);
-  }
-    public void editRecipe(Recipe newRecipe){
+    }
 
-        if(newRecipe == null){
+    public void editRecipe(Recipe newRecipe) {
+
+        if (newRecipe == null) {
             setVisible(false);
             return;
         }
-        if (newRecipe.getId() != null){
+        if (newRecipe.getId() != null) {
 
             recipe = service.getOneById(newRecipe.getId());
-            if (service.getOneById(newRecipe.getId()) != null){
+            if (service.getOneById(newRecipe.getId()) != null) {
                 recipe = newRecipe;
             }
-        }else{
+        } else {
 
             recipe = newRecipe;
         }

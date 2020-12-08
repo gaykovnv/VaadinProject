@@ -36,20 +36,20 @@ public class PatientEditor extends VerticalLayout implements KeyNotifier {
     private Button save = new Button("save", VaadinIcon.CHECK.create());
     private Button cancel = new Button("cancel");
     private Button delete = new Button("delete", VaadinIcon.TRASH.create());
-    private HorizontalLayout actions = new HorizontalLayout(save,cancel,delete);
+    private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
     private Binder<Patient> binder = new Binder<>(Patient.class);
     @Setter
     private ChangeHandler changeHandler;
 
-    public interface ChangeHandler{
+    public interface ChangeHandler {
         void onChange();
     }
 
-    public PatientEditor(PatientServiceImpl service){
+    public PatientEditor(PatientServiceImpl service) {
         this.service = service;
         phone.setPlaceholder("enter number phone ");
-        add(fname,lname,patronymic,phone,actions);
+        add(fname, lname, patronymic, phone, actions);
 
         binder.bindInstanceFields(this);
 
@@ -58,7 +58,7 @@ public class PatientEditor extends VerticalLayout implements KeyNotifier {
         save.getElement().getThemeList().add("primary");
         delete.getElement().getThemeList().add("error");
 
-        addKeyPressListener(Key.ENTER,e -> save());
+        addKeyPressListener(Key.ENTER, e -> save());
 
         save.addClickListener(e -> save());
         delete.addClickListener(e -> delete());
@@ -66,26 +66,28 @@ public class PatientEditor extends VerticalLayout implements KeyNotifier {
         setVisible(false);
     }
 
-    private void save(){
+    private void save() {
         service.save(patient);
         changeHandler.onChange();
     }
-    private void delete(){
+
+    private void delete() {
         service.delete(patient);
         changeHandler.onChange();
     }
-    public void editPatient(Patient newPatient){
-        if(newPatient == null){
+
+    public void editPatient(Patient newPatient) {
+        if (newPatient == null) {
             setVisible(false);
             return;
         }
         if (newPatient.getId() != null) {
             patient = service.getById(newPatient.getId());
 
-            if(service.getById(newPatient.getId()) != null){
+            if (service.getById(newPatient.getId()) != null) {
                 patient = newPatient;
             }
-        }else{
+        } else {
             patient = newPatient;
         }
 

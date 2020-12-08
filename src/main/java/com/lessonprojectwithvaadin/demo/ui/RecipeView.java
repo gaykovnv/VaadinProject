@@ -28,13 +28,13 @@ public class RecipeView extends VerticalLayout {
 
     private final Button filter = new Button("filter");
     private final Button addRecipe = new Button("add recipe");
-    private final Button urlDoctor = new Button("Doctors",VaadinIcon.AIRPLANE.create());
-    private final Button urlPatient = new Button("Patients",VaadinIcon.AIRPLANE.create());
-    private final HorizontalLayout toolBar = new HorizontalLayout(addRecipe,filter,urlDoctor,urlPatient);
+    private final Button urlDoctor = new Button("Doctors", VaadinIcon.AIRPLANE.create());
+    private final Button urlPatient = new Button("Patients", VaadinIcon.AIRPLANE.create());
+    private final HorizontalLayout toolBar = new HorizontalLayout(addRecipe, filter, urlDoctor, urlPatient);
     private final VerticalLayout panelFilter = new VerticalLayout();
 
     @Autowired
-    public RecipeView(RecipeServiceImpl service,RecipeEditor editor){
+    public RecipeView(RecipeServiceImpl service, RecipeEditor editor) {
         this.service = service;
         this.editor = editor;
 
@@ -42,48 +42,49 @@ public class RecipeView extends VerticalLayout {
         configureEditor();
 
 
-        add(toolBar,panelFilter,grid,editor);
+        add(toolBar, panelFilter, grid, editor);
 
         urlPatient.addClickListener(event -> getUI().get().getPage().setLocation("some/patient"));
-        urlDoctor.addClickListener(event ->getUI().get().getPage().setLocation("some/doctor"));
+        urlDoctor.addClickListener(event -> getUI().get().getPage().setLocation("some/doctor"));
 
-        filter.addClickListener(e ->{
-            if(!panelFilter.isVisible()){
+        filter.addClickListener(e -> {
+            if (!panelFilter.isVisible()) {
                 panelFilter();
-            }else{
+            } else {
                 panelFilter.removeAll();
                 panelFilter.setVisible(false);
             }
 
         });
 
-        grid.asSingleSelect().addValueChangeListener(e ->editor.editRecipe(e.getValue()));
+        grid.asSingleSelect().addValueChangeListener(e -> editor.editRecipe(e.getValue()));
 
 
-        addRecipe.addClickListener( e -> {
+        addRecipe.addClickListener(e -> {
             System.out.println(editor.isVisible());
             //editor.setVisible(false);
             if (!editor.isVisible()) {
                 editor.setVisible(true);
                 editor.editRecipe(new Recipe());
-            }else{
+            } else {
                 editor.setVisible(false);
                 editor.removeAll();
             }
         });
 
-        showRecipe(" "," "," ");
+        showRecipe(" ", " ", " ");
     }
 
-    private void showRecipe(String filterOne,String filterTwo,String filterThree){
-        if(filterOne.isEmpty() && filterTwo.isEmpty()){
+    private void showRecipe(String filterOne, String filterTwo, String filterThree) {
+        if (filterOne.isEmpty() && filterTwo.isEmpty()) {
             grid.setItems(service.findAll());
-        }else{
-            grid.setItems(service.findByFilter(filterOne,filterTwo,filterThree));
+        } else {
+            grid.setItems(service.findByFilter(filterOne, filterTwo, filterThree));
         }
 
     }
-//    private List<Recipe> toShow(){
+
+    //    private List<Recipe> toShow(){
 //        List<Recipe> recipes = service.findAll();
 //        for(int i = 0; i<recipes.size();i++){
 //            recipes.get(i).getDoctor().toShow();
@@ -91,22 +92,22 @@ public class RecipeView extends VerticalLayout {
 //        }
 //        return recipes;
 //    }
-    private void panelFilter(){
-        TextField filterDesc = new TextField("Description","enter any description");
-        Select<Priority> filterPrio = new Select<>(Priority.NORM,Priority.CITO,Priority.STATIM);
+    private void panelFilter() {
+        TextField filterDesc = new TextField("Description", "enter any description");
+        Select<Priority> filterPrio = new Select<>(Priority.NORM, Priority.CITO, Priority.STATIM);
         filterPrio.setPlaceholder("Priority... ");
         filterPrio.setLabel("Choose priority:");
-        TextField filterPatient = new TextField("Lname patient: ","enter lname patient");
+        TextField filterPatient = new TextField("Lname patient: ", "enter lname patient");
         Button apply = new Button("apply", VaadinIcon.CHECK.create());
         filterDesc.setValueChangeMode(ValueChangeMode.LAZY);
 
         apply.addClickListener(e -> {
             try {
-                if (filterPrio.getValue().toString() == null){
+                if (filterPrio.getValue().toString() == null) {
                     filterPrio.setValue(Priority.valueOf(" "));
                 }
-                showRecipe(filterDesc.getValue(),filterPrio.getValue().toString(),filterPatient.getValue());
-            }catch (Exception exception){
+                showRecipe(filterDesc.getValue(), filterPrio.getValue().toString(), filterPatient.getValue());
+            } catch (Exception exception) {
                 exception.getMessage();
             }
             panelFilter.removeAll();
@@ -114,23 +115,25 @@ public class RecipeView extends VerticalLayout {
         });
 
         Button cancel = new Button("cancel");
-        cancel.addClickListener(e ->{
-            showRecipe(" "," "," ");
+        cancel.addClickListener(e -> {
+            showRecipe(" ", " ", " ");
             panelFilter.removeAll();
             panelFilter.setVisible(false);
         });
 
-        HorizontalLayout buttons = new HorizontalLayout(apply,cancel);
-        panelFilter.add(filterDesc,filterPrio,filterPatient,buttons);
+        HorizontalLayout buttons = new HorizontalLayout(apply, cancel);
+        panelFilter.add(filterDesc, filterPrio, filterPatient, buttons);
         panelFilter.setVisible(true);
     }
-    private void configureGrid(){
+
+    private void configureGrid() {
         grid.setWidth("50");
         grid.setHeight("50");
         grid.addClassName("recipe");
-        grid.setColumns("description","patient","doctor","date","validity","priority");
+        grid.setColumns("description", "patient", "doctor", "date", "validity", "priority");
     }
-    private void configureEditor(){
+
+    private void configureEditor() {
         editor.setHeight("50");
         editor.setWidth("50");
     }

@@ -13,8 +13,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString(of = {"fname","lname","patronymic","phone"})
-@EqualsAndHashCode(of = {"id","fname","lname","patronymic","phone"})
+@ToString(of = {"fname", "lname", "patronymic", "phone"})
+@EqualsAndHashCode(of = {"id", "fname", "lname", "patronymic", "phone"})
 @NoArgsConstructor
 @Table(name = "patient")
 public class Patient implements Serializable {
@@ -42,6 +42,6 @@ public class Patient implements Serializable {
 
 
     public String toShow() {
-        return lname + " "+ fname.toUpperCase().charAt(0) + ". "+ patronymic.toUpperCase().charAt(0)+".";
+        return lname + " " + fname.toUpperCase().charAt(0) + ". " + patronymic.toUpperCase().charAt(0) + ".";
     }
 }

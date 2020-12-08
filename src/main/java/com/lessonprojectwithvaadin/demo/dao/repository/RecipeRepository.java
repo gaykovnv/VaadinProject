@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RecipeRepository extends JpaRepository<Recipe,Long> {
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     @Query("from Recipe r " +
             "where concat(r.description,' ') like concat('%',:description,'%') " +
             "and concat(r.priority,' ') like concat('%',:priority,'%') " +
             "and concat(r.patient.lname,' ') like concat('%',:patient,'%') ")
-    List<Recipe> findByDescription(@Param("description")String description,
-                                   @Param("priority")String priority,
-                                   @Param("patient")String patient);
+    List<Recipe> findByDescription(@Param("description") String description,
+                                   @Param("priority") String priority,
+                                   @Param("patient") String patient);
 
 }

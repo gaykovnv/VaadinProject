@@ -27,7 +27,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final DoctorRepository doctorRepo;
 
     @Autowired
-    private  final PatientRepository patientRepo;
+    private final PatientRepository patientRepo;
 
     @Override
     public List<Recipe> findAll() {
@@ -56,8 +56,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findByFilter(String description, String priority,String patient) {
-        return recipeRepo.findByDescription(description,priority,patient);
+    public List<Recipe> findByFilter(String description, String priority, String patient) {
+        return recipeRepo.findByDescription(description, priority, patient);
     }
 
     @Override
@@ -79,15 +79,15 @@ public class RecipeServiceImpl implements RecipeService {
         try {
             PreparedStatement preparedStatement = dbWork.getConnection().prepareStatement(query);
 
-            preparedStatement.setString(1,String.valueOf(recipe.getDate()));
-            preparedStatement.setString(2,recipe.getDescription());
-            preparedStatement.setString(3,recipe.getPriority().toString());
-            preparedStatement.setString(4,String.valueOf(recipe.getValidity()));
-            preparedStatement.setLong(5,recipe.getDoctor().getId());
-            preparedStatement.setLong(6,recipe.getPatient().getId());
+            preparedStatement.setString(1, String.valueOf(recipe.getDate()));
+            preparedStatement.setString(2, recipe.getDescription());
+            preparedStatement.setString(3, recipe.getPriority().toString());
+            preparedStatement.setString(4, String.valueOf(recipe.getValidity()));
+            preparedStatement.setLong(5, recipe.getDoctor().getId());
+            preparedStatement.setLong(6, recipe.getPatient().getId());
             preparedStatement.executeUpdate();
-        }catch (Exception exception){
-            System.out.println("Mistake executor: "+exception.getMessage());
+        } catch (Exception exception) {
+            System.out.println("Mistake executor: " + exception.getMessage());
         }
     }
 
@@ -97,10 +97,10 @@ public class RecipeServiceImpl implements RecipeService {
         String query = "delete from recipe where id=?";
         try {
             PreparedStatement preparedStatement = dbWork.getConnection().prepareStatement(query);
-            preparedStatement.setLong(1,recipe.getId());
+            preparedStatement.setLong(1, recipe.getId());
             preparedStatement.executeUpdate();
-        }catch (Exception e){
-            System.out.println("Mistake executor: "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Mistake executor: " + e.getMessage());
         }
     }
 }

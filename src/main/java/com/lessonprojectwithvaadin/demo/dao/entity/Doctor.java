@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString(of = {"id","fname","lname","patronymic","specialist"})
-@EqualsAndHashCode(of = {"id","fname","lname","patronymic","specialist"})
+@ToString(of = {"id", "fname", "lname", "patronymic", "specialist"})
+@EqualsAndHashCode(of = {"id", "fname", "lname", "patronymic", "specialist"})
 @NoArgsConstructor
 @Table(name = "doctor")
 public class Doctor implements Serializable {
@@ -35,13 +35,13 @@ public class Doctor implements Serializable {
     @Column(name = "specialist")
     private String specialist;
 
-    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private Set<Recipe> recipes = new HashSet<>();
 
 
     public String toShow() {
-        return lname + " " + fname.toUpperCase().charAt(0) + ". "+ patronymic.toUpperCase().charAt(0)+".";
+        return lname + " " + fname.toUpperCase().charAt(0) + ". " + patronymic.toUpperCase().charAt(0) + ".";
     }
 
 }

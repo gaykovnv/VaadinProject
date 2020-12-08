@@ -26,36 +26,36 @@ public class DoctorView extends VerticalLayout {
     private final Button addNewDoctor = new Button("add Doctor");
     private final Button information = new Button("information");
     private final Button urlPatient = new Button("Patients", VaadinIcon.AIRPLANE.create());
-    private final Button urlRecipe = new Button("Recipes",VaadinIcon.AIRPLANE.create());
+    private final Button urlRecipe = new Button("Recipes", VaadinIcon.AIRPLANE.create());
     private final HorizontalLayout toolBar =
-            new HorizontalLayout(filter,addNewDoctor, information,urlPatient,urlRecipe);
+            new HorizontalLayout(filter, addNewDoctor, information, urlPatient, urlRecipe);
     private final VerticalLayout staticInfo = new VerticalLayout();
 
     private final Button cancelInfo = new Button("cancel");
 
     @Autowired
-    public DoctorView(DoctorServiceImpl service,DoctorEditor editor){
+    public DoctorView(DoctorServiceImpl service, DoctorEditor editor) {
         this.service = service;
         this.editor = editor;
 
         configureGrid();
         configureEditor();
         staticInfo.setVisible(false);
-        add(toolBar,staticInfo,grid,editor);
+        add(toolBar, staticInfo, grid, editor);
 
         filter.setValueChangeMode(ValueChangeMode.EAGER);
-        filter.addValueChangeListener(e ->showDoctors(e.getValue()));
+        filter.addValueChangeListener(e -> showDoctors(e.getValue()));
 
         urlPatient.addClickListener(event -> getUI().get().getPage().setLocation("some/patient"));
         urlRecipe.addClickListener(event -> getUI().get().getPage().setLocation("some/recipe"));
 
         information.addClickListener(e -> {
             System.out.println(staticInfo.isVisible());
-            if(!staticInfo.isVisible()){
+            if (!staticInfo.isVisible()) {
                 staticInfo();
                 hiddenInfo();
 
-            }else{
+            } else {
                 staticInfo.removeAll();
                 staticInfo.setVisible(false);
             }
@@ -68,7 +68,7 @@ public class DoctorView extends VerticalLayout {
 
         addNewDoctor.addClickListener(e -> editor.editDoctor(new Doctor()));
 
-        editor.setChangeHandler(() ->{
+        editor.setChangeHandler(() -> {
             editor.setVisible(false);
             showDoctors(filter.getValue());
         });
@@ -76,36 +76,37 @@ public class DoctorView extends VerticalLayout {
         showDoctors(" ");
     }
 
-    private void staticInfo(){
-        Label amountDoctors = new Label("Doctor: "+String.valueOf(service.amountDoctors()));
-        Label amountPatients = new Label("Patient: "+String.valueOf(service.amountPatients()));
-        Label amountRecipes = new Label("Recipe: "+String.valueOf(service.amountRecipes()));
+    private void staticInfo() {
+        Label amountDoctors = new Label("Doctor: " + String.valueOf(service.amountDoctors()));
+        Label amountPatients = new Label("Patient: " + String.valueOf(service.amountPatients()));
+        Label amountRecipes = new Label("Recipe: " + String.valueOf(service.amountRecipes()));
 
-        staticInfo.add(amountDoctors,amountPatients,amountRecipes,cancelInfo);
+        staticInfo.add(amountDoctors, amountPatients, amountRecipes, cancelInfo);
         staticInfo.setVisible(true);
 
     }
 
-    private void hiddenInfo(){
-        cancelInfo.addClickListener(e ->staticInfo.removeAll());
+    private void hiddenInfo() {
+        cancelInfo.addClickListener(e -> staticInfo.removeAll());
     }
 
-    private void showDoctors(String filter){
-        if(filter.isEmpty()){
+    private void showDoctors(String filter) {
+        if (filter.isEmpty()) {
             grid.setItems(service.findAll());
-        }else{
+        } else {
             grid.setItems(service.findByName(filter));
         }
     }
-    private void configureEditor(){
+
+    private void configureEditor() {
         editor.setHeight("50");
         editor.setWidth("50");
     }
 
-    private void configureGrid(){
+    private void configureGrid() {
         grid.setHeight("50");
         grid.setWidth("50");
         grid.addClassName("doctor");
-        grid.setColumns("id","fname","lname","patronymic","specialist");
+        grid.setColumns("id", "fname", "lname", "patronymic", "specialist");
     }
 }

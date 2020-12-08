@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor,Long> {
+public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     @Query("from Doctor d " +
             "where concat(d.fname,' ',d.lname,' ',d.patronymic)" +

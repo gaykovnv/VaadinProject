@@ -52,7 +52,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void delete(Doctor doctor){
+    public void delete(Doctor doctor) {
         doctorRepo.delete(doctor);
     }
 

@@ -18,7 +18,7 @@ public interface RecipeService {
 
     void delete(Recipe recipe);
 
-    List<Recipe> findByFilter(String description, String priority,String patient);
+    List<Recipe> findByFilter(String description, String priority, String patient);
 
     List<Doctor> findAllDoctors();
 
